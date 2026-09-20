@@ -6,6 +6,17 @@
 #include <ESP8266mDNS.h>
 #include <LEAmDNS.h>
 
+// --- Compatibility shim ---------------------------------------------------
+// ESPHome's mdns component (ESP8266 + Arduino) compiles with -DNO_GLOBAL_MDNS,
+// which removes the global `MDNS` instance from ESP8266mDNS.h. This library
+// relies on that global. LEAmDNS.h above still defines the full
+// esp8266::MDNSImplementation::MDNSResponder class, so when the global is
+// absent we provide a file-local instance of the same type.
+#if defined(NO_GLOBAL_MDNS) || defined(NO_GLOBAL_INSTANCES)
+static esp8266::MDNSImplementation::MDNSResponder MDNS;
+#endif
+// -------------------------------------------------------------------------
+
 #include <wolfssl/wolfcrypt/settings.h>
 #include <homekit/homekit.h>
 #include <homekit/characteristics.h>
