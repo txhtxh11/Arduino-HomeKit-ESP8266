@@ -13,7 +13,9 @@
 // esp8266::MDNSImplementation::MDNSResponder class, so when the global is
 // absent we provide a file-local instance of the same type.
 #if defined(NO_GLOBAL_MDNS) || defined(NO_GLOBAL_INSTANCES)
-static esp8266::MDNSImplementation::MDNSResponder MDNS;
+// Also provide the MDNSResponder alias that ESP8266mDNS.h normally declares.
+using MDNSResponder = esp8266::MDNSImplementation::MDNSResponder;
+static MDNSResponder MDNS;
 #endif
 // -------------------------------------------------------------------------
 
